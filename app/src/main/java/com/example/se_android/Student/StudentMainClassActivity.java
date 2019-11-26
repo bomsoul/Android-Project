@@ -39,6 +39,10 @@ public class StudentMainClassActivity extends AppCompatActivity {
         finish();
     }
 
+    public void onSkillClick(View view){
+        Intent intent = new Intent(this,StudentSkill.class);
+        startActivityForResult(intent,12);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

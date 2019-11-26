@@ -3,9 +3,11 @@ package com.example.se_android.Student;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,9 @@ public class StudentDoQuiz extends AppCompatActivity {
     private String realans;
     private int scorecount = 0;
     private int questionNumber = 0;
+    private ProgressBar bar;
+    MycountdownTimer mycountdownTimer;
+    public int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class StudentDoQuiz extends AppCompatActivity {
         ans2 = findViewById(R.id.an2);
         ans3 = findViewById(R.id.an3);
         ans4 = findViewById(R.id.an4);
+        bar = findViewById(R.id.progressBar);
         try {
             quizzes = new getQuizData().execute().get();
         } catch (ExecutionException e) {
@@ -59,11 +65,12 @@ public class StudentDoQuiz extends AppCompatActivity {
         }
         else{
             updateQuestion();
+            Log.i("TIME", "updateQuestion: " + quizzes.get(questionNumber).getId() + ","+ quizzes.get(questionNumber).getTime());
             ans1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (ans1.getText() == realans){
-                        scorecount += 1;
+                        scorecount += quizzes.get(questionNumber).getPoint();
                         updateScore(scorecount);
 
                         Toast.makeText(StudentDoQuiz.this,"Correct",Toast.LENGTH_SHORT).show();
@@ -78,7 +85,7 @@ public class StudentDoQuiz extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (ans2.getText() == realans){
-                        scorecount += 1;
+                        scorecount += quizzes.get(questionNumber).getPoint();
                         updateScore(scorecount);
 
                         Toast.makeText(StudentDoQuiz.this,"Correct",Toast.LENGTH_SHORT).show();
@@ -93,7 +100,7 @@ public class StudentDoQuiz extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (ans3.getText() == realans){
-                        scorecount += 1;
+                        scorecount += quizzes.get(questionNumber).getPoint();
                         updateScore(scorecount);
 
                         Toast.makeText(StudentDoQuiz.this,"Correct",Toast.LENGTH_SHORT).show();
@@ -108,7 +115,7 @@ public class StudentDoQuiz extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (ans4.getText() == realans){
-                        scorecount += 1;
+                        scorecount += quizzes.get(questionNumber).getPoint();
                         updateScore(scorecount);
 
                         Toast.makeText(StudentDoQuiz.this,"Correct",Toast.LENGTH_SHORT).show();
@@ -135,6 +142,8 @@ public class StudentDoQuiz extends AppCompatActivity {
             ans3.setText(quizzes.get(questionNumber).getAns3());
             ans4.setText(quizzes.get(questionNumber).getAns4());
             realans = quizzes.get(questionNumber).getAns();
+            mycountdownTimer = new MycountdownTimer(quizzes.get(questionNumber).getTime()*1000,1000);
+            mycountdownTimer.start();
             questionNumber++;
         }
         else{
@@ -156,7 +165,7 @@ public class StudentDoQuiz extends AppCompatActivity {
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = DriverManager.getConnection(dburl,dbuser,dbpass);
-                String sql = "SELECT User_Quiz.quiz_status,Quiz.id,Quiz.user_id ,Quiz.question,Quiz.ans1," +
+                String sql = "SELECT Quiz.point,Quiz.time,User_Quiz.quiz_status,Quiz.id,Quiz.user_id ,Quiz.question,Quiz.ans1," +
                         "Quiz.ans2,Quiz.ans3,Quiz.ans4,Quiz.realans,User_Quiz.PIN,User_Quiz.quiz_status " +
                         "FROM User_Quiz INNER JOIN Quiz ON Quiz.id = User_Quiz.quiz_id " +
                         "WHERE User_Quiz.user_id = " +user.getId() ;
@@ -173,14 +182,49 @@ public class StudentDoQuiz extends AppCompatActivity {
                         String ans4 = resultSet.getString("ans4");
                         int realans = resultSet.getInt("realans");
                         int quizID = resultSet.getInt("id");
-                        Log.d("DD",quizID + ".)"+question +" "+ ans1 +" "+ ans2+ " " +ans3 +" "+ ans4 +"-"+ realans);
-                        quizzes.add(new Quiz(quizID,question,ans1,ans2,ans3,ans4,realans));
+                        int time = resultSet.getInt(("time"));
+                        int point = resultSet.getInt("point");
+                        Log.d("DD",quizID + ".)"+question +" "+ ans1 +" "+ ans2+ " " +ans3 +" "+ ans4 +"-"+ realans+".."+time);
+                        quizzes.add(new Quiz(quizID,question,ans1,ans2,ans3,ans4,realans,time,point));
                     }
                  }
             }catch (Exception e){
                 e.printStackTrace();
             }
             return quizzes;
+        }
+    }
+
+    class MycountdownTimer extends CountDownTimer{
+        int start = 0;
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public MycountdownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+            start = (int)(millisInFuture/countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            int progress = (int) ((millisUntilFinished)/1000);
+            Log.i("Count", "CountDown: " + progress);
+            i++;
+            try{
+                bar.setProgress((int)i*100/(start));
+            }catch (Exception e){
+
+            }
+        }
+
+        @Override
+        public void onFinish() {
+            i = 0;
+            updateQuestion();
         }
     }
 }

@@ -4,9 +4,31 @@ import java.io.Serializable;
 
 public class Quiz implements Serializable {
     private String question,ans1,ans2,ans3,ans4;
-    private int realans,id;
+    private int realans,id,time,point;
 
-    public Quiz(String question, String ans1, String ans2, String ans3, String ans4, int realans) {
+    public Quiz(int quizID, String question, String ans1, String ans2, String ans3, String ans4, int realans, int time,int point) {
+        this.id = quizID;
+        this.question = question;
+        this.ans1 = ans1;
+        this.ans2 = ans2;
+        this.ans3 = ans3;
+        this.ans4 = ans4;
+        this.realans = realans;
+        this.time = time;
+        this.point = point;
+    }
+    public Quiz(String question, String ans1, String ans2, String ans3, String ans4, int realans,int time) {
+        this.question = question;
+        this.ans1 = ans1;
+        this.ans2 = ans2;
+        this.ans3 = ans3;
+        this.ans4 = ans4;
+        this.realans = realans;
+        this.time = time;
+    }
+
+    public Quiz(int id,String question, String ans1, String ans2, String ans3, String ans4, int realans) {
+        this.id= id;
         this.question = question;
         this.ans1 = ans1;
         this.ans2 = ans2;
@@ -15,8 +37,7 @@ public class Quiz implements Serializable {
         this.realans = realans;
     }
 
-    public Quiz(int id,String question, String ans1, String ans2, String ans3, String ans4, int realans) {
-        this.id= id;
+    public Quiz(String question, String ans1, String ans2, String ans3, String ans4, int realans) {
         this.question = question;
         this.ans1 = ans1;
         this.ans2 = ans2;
@@ -90,5 +111,13 @@ public class Quiz implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public int getPoint() {
+        return point;
     }
 }
