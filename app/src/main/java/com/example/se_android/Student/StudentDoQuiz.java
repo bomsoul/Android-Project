@@ -43,7 +43,7 @@ public class StudentDoQuiz extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         setContentView(R.layout.activity_student_do_quiz);
         score = findViewById(R.id.score);
         question = findViewById(R.id.qa);
@@ -70,7 +70,12 @@ public class StudentDoQuiz extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (ans1.getText() == realans){
-                        scorecount += quizzes.get(questionNumber).getPoint();
+                        Log.i("Score", "onScore: " + questionNumber);
+                        try {
+                            scorecount += quizzes.get(questionNumber-1).getPoint();
+                        }catch (Exception e){
+
+                        }
                         updateScore(scorecount);
 
                         Toast.makeText(StudentDoQuiz.this,"Correct",Toast.LENGTH_SHORT).show();
@@ -85,7 +90,12 @@ public class StudentDoQuiz extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (ans2.getText() == realans){
-                        scorecount += quizzes.get(questionNumber).getPoint();
+                        Log.i("Score", "onScore: " + questionNumber);
+                        try {
+                            scorecount += quizzes.get(questionNumber-1).getPoint();
+                        }catch (Exception e){
+
+                        }
                         updateScore(scorecount);
 
                         Toast.makeText(StudentDoQuiz.this,"Correct",Toast.LENGTH_SHORT).show();
@@ -100,7 +110,12 @@ public class StudentDoQuiz extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (ans3.getText() == realans){
-                        scorecount += quizzes.get(questionNumber).getPoint();
+                        Log.i("Score", "onScore: " + questionNumber);
+                        try {
+                            scorecount += quizzes.get(questionNumber-1).getPoint();
+                        }catch (Exception e){
+
+                        }
                         updateScore(scorecount);
 
                         Toast.makeText(StudentDoQuiz.this,"Correct",Toast.LENGTH_SHORT).show();
@@ -115,7 +130,12 @@ public class StudentDoQuiz extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (ans4.getText() == realans){
-                        scorecount += quizzes.get(questionNumber).getPoint();
+                        Log.i("Score", "onScore: " + questionNumber);
+                        try {
+                            scorecount += quizzes.get(questionNumber-1).getPoint();
+                        }catch (Exception e){
+
+                        }
                         updateScore(scorecount);
 
                         Toast.makeText(StudentDoQuiz.this,"Correct",Toast.LENGTH_SHORT).show();

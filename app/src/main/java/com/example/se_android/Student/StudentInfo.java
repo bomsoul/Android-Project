@@ -28,7 +28,7 @@ public class StudentInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         setContentView(R.layout.activity_student_info);
         User user = User.getOurInstance();
         point = findViewById(R.id.Mypoint);

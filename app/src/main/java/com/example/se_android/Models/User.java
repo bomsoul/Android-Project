@@ -1,7 +1,7 @@
 package com.example.se_android.Models;
 
 public class User {
-    private int id;
+    private int id,point;
     private String name,username,email,password,role;
 
     private static final User ourInstance = new User();

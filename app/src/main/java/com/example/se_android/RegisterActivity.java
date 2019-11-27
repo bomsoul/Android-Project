@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         setContentView(R.layout.activity_register);
         spin = (Spinner) findViewById(R.id.simpleSpinner);
         spin.setOnItemSelectedListener(this);

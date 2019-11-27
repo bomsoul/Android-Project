@@ -21,6 +21,7 @@ import com.example.se_android.Models.User;
 import com.example.se_android.R;
 import com.example.se_android.SkillShop;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -123,6 +124,7 @@ public class StudentSkill extends AppCompatActivity {
 
     public void onShopClick(View view){
         Intent intent = new Intent(this, SkillShop.class);
+        intent.putExtra("item", (Serializable) list);
         startActivity(intent);
     }
 
