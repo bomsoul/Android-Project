@@ -162,8 +162,8 @@ public class StudentDoQuiz extends AppCompatActivity {
             ans3.setText(quizzes.get(questionNumber).getAns3());
             ans4.setText(quizzes.get(questionNumber).getAns4());
             realans = quizzes.get(questionNumber).getAns();
-            mycountdownTimer = new MycountdownTimer(quizzes.get(questionNumber).getTime()*1000,1000);
-            mycountdownTimer.start();
+//            mycountdownTimer = new MycountdownTimer(quizzes.get(questionNumber).getTime()*1000,1000);
+//            mycountdownTimer.start();
             questionNumber++;
         }
         else{
@@ -205,9 +205,33 @@ public class StudentDoQuiz extends AppCompatActivity {
                         int time = resultSet.getInt(("time"));
                         int point = resultSet.getInt("point");
                         Log.d("DD",quizID + ".)"+question +" "+ ans1 +" "+ ans2+ " " +ans3 +" "+ ans4 +"-"+ realans+".."+time);
-                        quizzes.add(new Quiz(quizID,question,ans1,ans2,ans3,ans4,realans,time,point));
+                        quizzes.add(new Quiz(quizID,question,ans1,ans2,ans3,ans4,realans,time,point,"old"));
                     }
                  }
+                sql = "SELECT * FROM Quiz WHERE pin = '"+Course.getOurInstance().getPIN()+"'";
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(sql);
+                while (resultSet.next()){
+                    String question = resultSet.getString("question");
+                    String ans1 = resultSet.getString("ans1");
+                    String ans2 = resultSet.getString("ans2");
+                    String ans3 = resultSet.getString("ans3");
+                    String ans4 = resultSet.getString("ans4");
+                    int realans = resultSet.getInt("realans");
+                    int quizID = resultSet.getInt("id");
+                    int time = resultSet.getInt(("time"));
+                    int point = resultSet.getInt("point");
+                    boolean have = false;
+                    for (Quiz x: quizzes) {
+                        if (x.getId() == quizID){
+                            have = true;
+                            break;
+                        }
+                    }
+                    if(!have){
+                        quizzes.add(new Quiz(quizID,question,ans1,ans2,ans3,ans4,realans,time,point,"new"));
+                    }
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }

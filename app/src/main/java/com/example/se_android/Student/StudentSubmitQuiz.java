@@ -62,12 +62,20 @@ public class StudentSubmitQuiz extends AppCompatActivity {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = DriverManager.getConnection(dburl,dbuser,dbpass);
                 for (Quiz x: quizz) {
-                    String sql = "UPDATE User_Quiz " +
-                            "SET quiz_status = true" +
-                            " WHERE user_id = "+ user.getId()+" and quiz_id = "+x.getId();
-                    Log.i("DDD", "doInBackground: "+ sql);
-                    Statement statement = connection.createStatement();
-                    statement.executeUpdate(sql);
+                    if(x.getStatus().equals("old")){
+                        String sql = "UPDATE User_Quiz " +
+                                "SET quiz_status = true" +
+                                " WHERE user_id = "+ user.getId()+" and quiz_id = "+x.getId();
+                        Log.i("DDD", "doInBackground: "+ sql);
+                        Statement statement = connection.createStatement();
+                        statement.executeUpdate(sql);
+                    }
+                    else{
+                        String sql = "INSERT INTO User_Quiz VALUES ("+User.getOurInstance().getId()+",true,'"+Course.getOurInstance().getPIN()+"',"+x.getId()+")";
+                        Log.i("DDD", "doInBackground: "+ sql);
+                        Statement statement = connection.createStatement();
+                        statement.executeUpdate(sql);
+                    }
                 }
                 int initscore = 0;
                 String sql = "SELECT * FROM User_Class_Point WHERE user_id = "+ user.getId()+" and course_id = "+course.getId();

@@ -3,10 +3,10 @@ package com.example.se_android.Models;
 import java.io.Serializable;
 
 public class Quiz implements Serializable {
-    private String question,ans1,ans2,ans3,ans4;
+    private String question,ans1,ans2,ans3,ans4,status;
     private int realans,id,time,point;
 
-    public Quiz(int quizID, String question, String ans1, String ans2, String ans3, String ans4, int realans, int time,int point) {
+    public Quiz(int quizID, String question, String ans1, String ans2, String ans3, String ans4, int realans, int time,int point,String status) {
         this.id = quizID;
         this.question = question;
         this.ans1 = ans1;
@@ -16,6 +16,7 @@ public class Quiz implements Serializable {
         this.realans = realans;
         this.time = time;
         this.point = point;
+        this.status = status;
     }
     public Quiz(String question, String ans1, String ans2, String ans3, String ans4, int realans,int time) {
         this.question = question;
@@ -119,5 +120,9 @@ public class Quiz implements Serializable {
 
     public int getPoint() {
         return point;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

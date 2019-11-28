@@ -90,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 try {
                     text_status = new Register().execute(name.getText().toString(),
                             email.getText().toString(),username.getText().toString(),
-                            password.getText().toString(),role).get();
+                            password.getText().toString(),"student").get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
